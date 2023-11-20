@@ -24,6 +24,8 @@ public class Bus extends Serializable {
             bus.name = "Bus " + i;
             bus.departure = new Station();
             bus.departure.city = City.JAKARTA;
+            bus.arrival = new Station();
+            bus.arrival.city = City.BANDUNG;
             bus.price = new Price();
             bus.price.price = 15000000;
             busList.add(bus);

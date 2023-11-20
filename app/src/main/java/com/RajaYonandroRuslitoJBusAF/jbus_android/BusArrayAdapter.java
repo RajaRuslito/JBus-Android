@@ -43,12 +43,14 @@ public class BusArrayAdapter extends ArrayAdapter<Bus> {
 
         // get the position of the view from the ArrayAdapter
         TextView busNameTextView = convertView.findViewById(R.id.textView1);
-        TextView departureStationTextView = convertView.findViewById(R.id.textView2);
+        TextView departureStationTextView = convertView.findViewById(R.id.textView3);
+        TextView arrivalStationTextView = convertView.findViewById(R.id.textView2);
         TextView priceTextView = convertView.findViewById(R.id.price);
 
         if(newbus != null){
             busNameTextView.setText(newbus.name);
-            departureStationTextView.setText("To : " + newbus.departure.city.name());
+            departureStationTextView.setText("From : " + newbus.departure.city.name());
+            arrivalStationTextView.setText(newbus.arrival.city.name());
             priceTextView.setText("IDR " + String.format("%.2f", newbus.price.price));
         }
         return convertView;
