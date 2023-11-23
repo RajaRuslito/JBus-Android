@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             btns[i] = new Button(this);
             btns[i].setBackgroundColor(getResources().getColor(android.R.color.transparent));
             btns[i].setText("" + (i + 1)); // Ganti dengan warna yang kalian mau
-            btns[i].setTextColor(getResources().getColor(R.color.black));
+            btns[i].setTextColor(getResources().getColor(R.color.white));
 
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     100,
@@ -132,12 +132,12 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i< noOfPages; i++) {
             if (i == index) {
                 btns[index].setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
-                btns[i].setTextColor(getResources().getColor(android.R.color.white));
+                btns[i].setTextColor(getResources().getColor(android.R.color.black));
                 scrollToItem(btns[index]);
                 viewPaginatedList(listBus, currentPage);
             } else {
                 btns[i].setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                btns[i].setTextColor(getResources().getColor(android.R.color.black));
+                btns[i].setTextColor(getResources().getColor(android.R.color.white));
             }
         }
     }
