@@ -137,7 +137,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/topup"
+                android:id="@+id/topup_abtme"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="267dp"
                 android:layout_height="wrap_content"
@@ -146,6 +146,7 @@
                 app:startIconDrawable="@drawable/baseline_account_balance_wallet_24">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/topup_amount"
                     android:layout_width="257dp"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
