@@ -2,16 +2,17 @@ package com.RajaYonandroRuslitoJBusAF.jbus_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Account;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BaseResponse;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Renter;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.request.BaseApiService;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.request.UtilsApi;
 import com.google.android.material.textfield.TextInputEditText;
@@ -20,42 +21,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterRenterActivity extends AppCompatActivity {
 
-    private TextView loginNow = null;
-    private Button registerButton = null;
+    private TextView manageNow = null;
+    private Button regCompButton = null;
     private BaseApiService mApiService;
     private Context mContext;
-    private TextInputEditText name, email, password;
-    public static Account loggedAccount;
+    private TextInputEditText compName, address, phoneNumb;
+    private int id;
 
-    //private Button registerButton = null;
-
+    //@SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register_renter);
 
-        getSupportActionBar().hide();
-
-        loginNow = findViewById(R.id.register_now);
-        registerButton = findViewById(R.id.register_button);
-
-        loginNow.setOnClickListener(e -> {
-            moveActivity(this, LoginActivity.class);
-        });
-        registerButton.setOnClickListener(e -> {
-            handleRegister();
-            //moveActivity(this, LoginActivity.class);
-        });
+        manageNow = findViewById(R.id.manage_now);
+        regCompButton = findViewById(R.id.registerRenter_button);
 
         mContext = this;
         mApiService = UtilsApi.getApiService();
 // sesuaikan dengan ID yang kalian buat di layout
-        name = (TextInputEditText) findViewById(R.id.username_reg);
-        email = (TextInputEditText) findViewById(R.id.email_reg);
-        password = (TextInputEditText) findViewById(R.id.password_reg);
-        //registerButton = findViewById(R.id.button_register);
+        compName = (TextInputEditText) findViewById(R.id.companyName);
+        address = (TextInputEditText) findViewById(R.id.compAddress);
+        phoneNumb = (TextInputEditText) findViewById(R.id.phoneNumb_reg);
+
+        regCompButton.setOnClickListener(view -> {
+            handleRegisterRenter();
+        });
 
     }
 
@@ -68,42 +61,43 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
 
-    protected void handleRegister() {
-        String nameS = name.getText().toString();
-        String emailS = email.getText().toString();
-        String passwordS = password.getText().toString();
+    protected void handleRegisterRenter() {
+        String nameS = compName.getText().toString();
+        String addressS = address.getText().toString();
+        String phoneNumS = phoneNumb.getText().toString();
+        Account acc = LoginActivity.loggedAccount;
 
-        if (nameS.isEmpty() || emailS.isEmpty() || passwordS.isEmpty()) {
+        if (nameS.isEmpty() || addressS.isEmpty() || phoneNumS.isEmpty()) {
             Toast.makeText(mContext, "Fields Cannot Be Empty!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!nameS.isEmpty() && !emailS.isEmpty() && !passwordS.isEmpty()) {
-            viewToast(this, "TRUE");
+        if (!nameS.isEmpty() && !addressS.isEmpty() && !phoneNumS.isEmpty()) {
+
 
             //Account account = new Account(nameS, emailS, passwordS, 0.0D);
-            mApiService.register(nameS, emailS, passwordS).enqueue(new Callback<BaseResponse<Account>>() {
+            mApiService.registerRenter(acc.id, nameS, phoneNumS, addressS).enqueue(new Callback<BaseResponse<Renter>>() {
                 @Override
-                public void onResponse(Call<BaseResponse<Account>> call, Response<BaseResponse<Account>> response) {
+                public void onResponse(Call<BaseResponse<Renter>> call, Response<BaseResponse<Renter>> response) {
                     if (!response.isSuccessful()) {
                         Toast.makeText(mContext, "ERROR" + response.code(), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    BaseResponse<Account> res = response.body();
+                    BaseResponse<Renter> res = response.body();
 
                     if (res.success) {
-                        moveActivity(mContext, LoginActivity.class);
+                        viewToast(mContext, "TRUE");
+                        moveActivity(mContext, AboutMeActivity.class);
                         finish();
                     }
                     Toast.makeText(mContext, res.message, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onFailure(Call<BaseResponse<Account>> call, Throwable t) {
+                public void onFailure(Call<BaseResponse<Renter>> call, Throwable t) {
                     Toast.makeText(mContext, "Server ERROR", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
-
 }

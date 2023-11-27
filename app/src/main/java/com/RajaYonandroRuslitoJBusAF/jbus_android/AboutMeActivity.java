@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,7 @@ public class AboutMeActivity extends AppCompatActivity {
     private Context mContext;
     private BaseApiService mApiService;
     private int id;
+    private TextView registerCompany = null;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,6 +45,7 @@ public class AboutMeActivity extends AppCompatActivity {
         TextView initial = findViewById(R.id.initial);
         topUpEdit = (TextInputEditText) findViewById(R.id.topup_amount);
         topupButton = findViewById(R.id.topup_button);
+        registerCompany = findViewById(R.id.regcomp_now);
 
         mContext = this;
         mApiService = UtilsApi.getApiService();
@@ -54,6 +58,36 @@ public class AboutMeActivity extends AppCompatActivity {
             usernameTextView.setText(account.name);
             emailTextView.setText(account.email);
             balanceTextView.setText("IDR " + String.valueOf(account.balance));
+
+            if (LoginActivity.loggedAccount.company != null) {
+                // Already a renter - Show renter-related data and a button to manage the bus
+                TextView textView = findViewById(R.id.statusRenter);
+                textView.setText("You Already Have a Company");
+                TextView registerRenter = findViewById(R.id.regcomp_now);
+                registerRenter.setVisibility(View.GONE);
+                // Update other UI elements with renter's information like company name, address, phone number
+
+                // Implement a listener for a button or component to manage the bus
+
+                Button manageBusButton = findViewById(R.id.manageNow);
+                manageBusButton.setOnClickListener(v -> {
+                    moveActivity(mContext, ManageBusActivity.class);
+                });
+            } else {
+                // Not a renter - Show a message prompting to register as a renter
+                TextView textView = findViewById(R.id.statusRenter);
+                textView.setText("Want to Have Your Own Company?");
+
+                // Implement a listener for a component to navigate to the registration page
+                Button manageBusButton = findViewById(R.id.manageNow);
+                manageBusButton.setVisibility(View.GONE);
+
+                registerCompany.setOnClickListener(view -> {
+                    moveActivity(this, RegisterRenterActivity.class);
+                });
+            }
+
+
         }
 
 
@@ -64,6 +98,11 @@ public class AboutMeActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void moveActivity(Context ctx, Class<?> cls) {
+        Intent intent = new Intent(ctx, cls);
+        startActivity(intent);
     }
 
     private void viewToast(Context ctx, String message) {
