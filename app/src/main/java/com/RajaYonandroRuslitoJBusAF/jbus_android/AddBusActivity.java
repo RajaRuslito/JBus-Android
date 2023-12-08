@@ -50,6 +50,7 @@ public class AddBusActivity extends AppCompatActivity {
     private CheckBox coolboxCheckBox, lunchCheckBox, baggageCheckBox, electricCheckBox;
     private List<Facility> selectedFacilities = new ArrayList<>();
     private Button addBusButton = null;
+    public static Double harga;
 
 
     @Override
@@ -189,16 +190,18 @@ public class AddBusActivity extends AppCompatActivity {
         };
         busTypeSpinner.setOnItemSelectedListener(busTypeOISL);
     }
+
     private void viewToast(Context ctx, String message){
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
+
     public void handleCreateBus(){
         String nameS = addBusName.getText().toString();
         int capacity = Integer.parseInt(busCapacity.getText().toString());
         int price = Integer.parseInt(busPrice.getText().toString());
+        harga = Double.parseDouble(busPrice.getText().toString());
 
-
-        mApiService.create(LoginActivity.loggedAccount.id, nameS, capacity, selectedFacilities, selectedBusType, price, selectedDeptStationID, selectedArrStationID ).enqueue(new Callback<BaseResponse<Bus>>() {
+        mApiService.create(LoginActivity.loggedAccount.company.id, nameS, capacity, selectedFacilities, selectedBusType, price, selectedDeptStationID, selectedArrStationID ).enqueue(new Callback<BaseResponse<Bus>>() {
             @Override
             public void onResponse(Call<BaseResponse<Bus>> call, Response<BaseResponse<Bus>> response) {
                 if(!response.isSuccessful()){

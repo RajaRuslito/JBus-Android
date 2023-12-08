@@ -16,11 +16,47 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".PaymentStatusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManageBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BusInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".makeBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManageBusScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddSchedule"
+            android:exported="false" />
+        <activity
+            android:name=".model.AddSchedule"
+            android:exported="false" />
+        <activity
+            android:name=".NotRegisteredActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".AddBusActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ManageBusActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".RegisterRenterActivity"
             android:exported="false" />
@@ -35,13 +71,7 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

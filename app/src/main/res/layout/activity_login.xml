@@ -7,40 +7,17 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".LoginActivity"
-    android:background="@drawable/img"
+    android:background="@drawable/loginbg"
     > <!-- Add this line -->
     <!-- Fill the linear layout with some components-->
 
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="JBUS"
-            android:textColor="@color/black"
-            android:textSize="50sp"
-            android:textStyle="bold"
-            />
-
-    <TextView
-        android:id="@+id/title1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:text="E-Ticket"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        />
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:padding="20dp"
@@ -55,24 +32,34 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Please Sign In to Continue"
+                    android:text="HELLO!"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Please Log In to Continue"
                     android:layout_marginBottom="10dp"
                     />
 
                 <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/baseline_mail_outline_24"
-                android:hint="Email"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email_login"
+                    android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:startIconDrawable="@drawable/baseline_mail_outline_24"
+                    android:hint="Email"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password"

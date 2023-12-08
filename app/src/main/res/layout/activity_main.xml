@@ -6,89 +6,106 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/img">
+    android:background="@drawable/newbgmain">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/main_page"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:cardCornerRadius="150dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:padding="20dp"
-            >
-            <ImageView
-                android:id="@+id/bus_icon"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/bus_icon1" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="437dp"
-        android:layout_marginLeft="10dp"
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        tools:context=".MainActivity" />
+        android:background="@drawable/search_bg"
+        android:gravity="center"
+        app:queryHint="Search.." />
 
     <LinearLayout
-        android:id="@+id/pagination_footer"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        android:layout_marginVertical="21dp"
+        android:layout_height="728dp"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingHorizontal="21dp"
-        app:layout_constraintBottom_toBottomOf="@+id/listView"
-        tools:ignore="MissingConstraints,UnknownId">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/prev_page"
-            android:layout_width="56dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="pevPage"
-            android:drawableLeft="@drawable/baseline_arrow_back_ios_new_24"
-            android:minHeight="48dp"
-            app:iconTint="#2E0D0D" />
-
-        <HorizontalScrollView
-            android:id="@+id/page_number_scroll"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="25"
-            android:contentDescription="pageNumber"
-            android:paddingHorizontal="18dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Bus Booking"
+            android:textColor="@color/black"
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/btn_layout"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Book Your Bus"
+            android:textSize="20dp" />
+
+        <ListView
+            android:id="@+id/listBooking"
+            android:layout_width="match_parent"
+            android:layout_height="558dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            tools:context=".ManageBusActivity"
+            tools:listitem="@layout/listbusbooking_view" />
+
+        <!--<LinearLayout
+            android:id="@+id/pagination_footer"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_marginVertical="21dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="21dp"
+            tools:ignore="MissingConstraints,UnknownId">
+
+            <Button
+                android:id="@+id/prev_page"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="pevPage"
+                android:drawableLeft="@drawable/baseline_arrow_back_ios_new_24"
+                android:minHeight="48dp"
+                app:iconTint="#2E0D0D" />
+
+            <HorizontalScrollView
+                android:id="@+id/page_number_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
+                android:layout_weight="25"
+                android:contentDescription="pageNumber"
+                android:paddingHorizontal="18dp">
 
-        <Button
-            android:id="@+id/next_page"
-            android:layout_width="56dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="nextPage"
-            android:drawableLeft="@drawable/baseline_arrow_forward_ios_24"
-            android:minHeight="48dp" />
+                <LinearLayout
+                    android:id="@+id/btn_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
 
+            <Button
+                android:id="@+id/next_page"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="nextPage"
+                android:drawableLeft="@drawable/baseline_arrow_forward_ios_24"
+                android:minHeight="48dp" />
+
+        </LinearLayout>-->
     </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/actshape"
+        app:menu="@menu/bot_men" />
 
 </LinearLayout>

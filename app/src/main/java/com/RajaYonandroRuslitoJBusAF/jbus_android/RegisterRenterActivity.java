@@ -87,6 +87,7 @@ public class RegisterRenterActivity extends AppCompatActivity {
 
                     if (res.success) {
                         viewToast(mContext, "TRUE");
+                        LoginActivity.loggedAccount.company = res.payload;
                         moveActivity(mContext, AboutMeActivity.class);
                         finish();
                     }

@@ -2,13 +2,16 @@ package com.RajaYonandroRuslitoJBusAF.jbus_android.request;
 
 import android.widget.TextView;
 
+import com.RajaYonandroRuslitoJBusAF.jbus_android.PaymentActivity;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Account;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BaseResponse;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Bus;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BusType;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Facility;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Payment;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Renter;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Station;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -63,5 +66,45 @@ public interface BaseApiService {
             @Query("stationArrivalId") int stationArrivalId
     );
 
+    @GET("bus/getMyBus")
+    Call<List<Bus>> getMyBus(
+            @Query("accountId") int accountId
+    );
+
+    @GET("bus/getBuses")
+    Call<BaseResponse<List<Bus>>> getBuses(
+           /* @Query("busId") int busId*/
+    );
+
+    @POST("bus/addSchedule")
+    Call<BaseResponse<Bus>> addSchedule(
+            @Query("busId") int busId,
+            @Query("time") String time
+    );
+
+    @POST("payment/makeBooking")
+    Call<BaseResponse<Payment>> makeBooking(
+            @Query("buyerId") int buyerId,
+            @Query("renterId") int renterId,
+            @Query("busId") int busId,
+            @Query("busSeats") List<String> busSeats,
+            @Query("departureDate") String departureDate
+    );
+
+    @POST("payment/{id}/accept")
+    Call<BaseResponse<Payment>> accept(
+            @Path("id") int id
+    );
+
+    @POST("payment/{id}/cancel")
+    Call<BaseResponse<Payment>> cancel(
+            @Path("id") int id
+    );
+
+    @GET("bus/{id}")
+    Call<Bus> getBusbyId(@Path("id") int id);
+
+    @GET("payment/getMyPayment")
+    Call<List<Payment>> getMyPayment();
 }
 

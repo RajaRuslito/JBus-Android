@@ -5,57 +5,144 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.RajaYonandroRuslitoJBusAF.jbus_android.databinding.ActivityMainBinding;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.databinding.ActivityManageBusBinding;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Account;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BaseResponse;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Bus;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Payment;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Renter;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Station;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.request.BaseApiService;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.request.UtilsApi;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ManageBusActivity extends AppCompatActivity {
 
-    private ListView listView;
-    private Button[] btns;
-    private ListView newBusListView = null;
+    public static List<Bus> listBus = new ArrayList<>();
     private ImageView addBus = null;
-    private List<Bus> listNewBus = new ArrayList<>();
-    private int listNewSize;
-    private int currentPage = 0;
-    private int pageSize = 10;
-    private int listSize;
-    private int noOfPages;
-    private List<Bus> listBus = new ArrayList<>();
-    private Button prevButton = null;
-    private Button nextButton = null;
     private ListView busListView = null;
     private HorizontalScrollView pageScroll = null;
+    private Context mContext;
+    private BaseApiService mApiService;
+
+    ActivityManageBusBinding binding;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_bus);
 
+        binding = ActivityManageBusBinding.inflate(getLayoutInflater());
+
         getSupportActionBar().hide();
 
-        newBusListView = findViewById(R.id.listViewManageBus);
-        listNewBus = Bus.sampleBusList(30);
-        listNewSize = listNewBus.size();
-        ListView listbus = (ListView) findViewById(R.id.listViewManageBus);
-        //BusArrayAdapter adapter = new BusArrayAdapter(getApplicationContext(), R.layout.activity_manage_bus, listNewBus);
-        /*listbus.setAdapter(adapter);
-        newBusListView.setAdapter(adapter);*/
         addBus = findViewById(R.id.addbus);
+
+        mContext = this;
+        mApiService = UtilsApi.getApiService();
+        busListView = findViewById(R.id.listViewManageBus);
+
+        /*handleMyBus();*/
+        loadMyBus();
 
         addBus.setOnClickListener(view -> {
             moveActivity(this, AddBusActivity.class);
         });
+
+    }
+    private void viewToast(Context ctx, String message) {
+        Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void loadMyBus() {
+        Account acc = LoginActivity.loggedAccount;
+        mApiService.getMyBus(acc.id).enqueue(new Callback<List<Bus>>() {
+            @Override
+            public void onResponse(Call<List<Bus>> call, Response<List<Bus>> response) {
+                if (!response.isSuccessful()) return;
+
+                List<Bus> myBusList = response.body();
+                listBus = myBusList;
+                busListView = findViewById(R.id.listViewManageBus);
+                /*listSize = listBus.size();*/
+                ManageBusAdapter adapter = new ManageBusAdapter(getApplicationContext(), R.layout.activity_manage_bus, myBusList, ManageBusActivity.this);
+                busListView.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Bus>> call, Throwable t) {
+
+            }
+        });
+    }
+    /*public void handleMyBus(){
+        Account acc = LoginActivity.loggedAccount;
+        Payment bus = AddSchedule.loggedBus;
+
+        mApiService.getBuses(acc.id).enqueue(new Callback<BaseResponse<List<Bus>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<Bus>>> call, Response<BaseResponse<List<Bus>>> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(mContext, "ERROR" + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                BaseResponse<List<Bus>> resp = response.body();
+                if (response.isSuccessful()) {
+                    listBus.clear();
+                    for(Bus b : resp.payload) {
+                        listBus.add(b);
+                    }
+                    busListView = findViewById(R.id.listViewManageBus);
+                    listSize = listBus.size();
+                    busListView.setAdapter(adapter);
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<Bus>>> call, Throwable t) {
+                Toast.makeText(mContext, "Server ERROR", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+    }*/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.addbus) {
+            Intent intent = new Intent(mContext, AddBusActivity.class);
+            intent.putExtra("type", "addBus");
+            startActivity(intent);
+            return true;
+        } else return super.onOptionsItemSelected(item);
     }
 
     private void moveActivity(Context ctx, Class<?> cls) {
@@ -63,60 +150,5 @@ public class ManageBusActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void paginationFooter() {
-        int val = listSize % pageSize;
-        val = val == 0 ? 0 : 1;
-        noOfPages = listSize / pageSize + val;
-
-        LinearLayout ll = findViewById(R.id.btn_layout);
-        btns = new Button[noOfPages];
-
-        if (noOfPages <= 5) {
-            ((FrameLayout.LayoutParams) ll.getLayoutParams()).gravity = Gravity.CENTER;
-        }
-
-        for (int i = 0; i < noOfPages; i++) {
-            btns[i] = new Button(this);
-            btns[i].setBackgroundColor(getResources().getColor(android.R.color.transparent));
-            btns[i].setText("" + (i + 1)); // Ganti dengan warna yang kalian mau
-            btns[i].setTextColor(getResources().getColor(R.color.white));
-
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    100,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            ll.addView(btns[i], lp);
-
-            final int j = i;
-            btns[j].setOnClickListener(v -> {
-                currentPage = j;
-                goToPage(j);
-            });
-        }
-    }
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void goToPage(int index) {
-        for (int i = 0; i< noOfPages; i++) {
-            if (i == index) {
-                btns[index].setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
-                btns[i].setTextColor(getResources().getColor(android.R.color.black));
-                scrollToItem(btns[index]);
-                viewPaginatedList(listBus, currentPage);
-            } else {
-                btns[i].setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                btns[i].setTextColor(getResources().getColor(android.R.color.white));
-            }
-        }
-    }
-    private void scrollToItem(Button item) {
-        int scrollX = item.getLeft() - (pageScroll.getWidth() - item.getWidth()) / 2;
-        pageScroll.smoothScrollTo(scrollX, 0);
-    }
-    private void viewPaginatedList(List<Bus> listBus, int page) {
-        int startIndex = page * pageSize;
-        int endIndex = Math.min(startIndex + pageSize, listBus.size());
-        List<Bus> paginatedList = listBus.subList(startIndex, endIndex);
-        BusArrayAdapter paginatedAdapter = new BusArrayAdapter(this, R.layout.bus_view, paginatedList);
-        busListView.setAdapter(paginatedAdapter);
-    }
 
 }
