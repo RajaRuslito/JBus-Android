@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Account;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Algorithm;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BaseResponse;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Bus;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Payment;
@@ -21,13 +23,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activity for handling the payment status, including accepting and canceling bookings.
+ */
 public class PaymentStatusActivity extends AppCompatActivity {
 
+    // Instance variables
     private Context mContext;
     private BaseApiService mApiService;
     private int busId;
     private int buyerId;
+    private int id;
+    private Button acceptBooking, cancelBooking;
+    private TextView stat;
+    private Intent intent;
 
+    /**
+     * Called when the activity is starting. This is where most initialization should go:
+     * calling setContentView(int) to inflate the activity's UI, using findViewById(int)
+     * to programmatically interact with widgets in the UI, and setting up event listeners.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                           being shut down, this Bundle contains the data it most
+     *                           recently supplied in onSaveInstanceState(Bundle).
+     *                           Note: Otherwise, it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,31 +58,54 @@ public class PaymentStatusActivity extends AppCompatActivity {
         mContext = this;
         mApiService = UtilsApi.getApiService();
 
-        Intent intent = this.getIntent();
+        intent = this.getIntent();
         Bundle bundle = getIntent().getExtras();
 
         if(intent != null){
             TextView busName = this.findViewById(R.id.busNameFinal);
             TextView bookedSeat = this.findViewById(R.id.bookedSeatFinal);
             TextView bookedSched = this.findViewById(R.id.bookedSchedFinal);
-
+            TextView buyerIdTextView = this.findViewById(R.id.buyerId);
+            acceptBooking = this.findViewById(R.id.acceptBooking);
+            cancelBooking = this.findViewById(R.id.cancelBooking);
             busId = this.getIntent().getIntExtra("busId", -1);
             buyerId = this.getIntent().getIntExtra("buyerId", -1);
+            id = this.getIntent().getIntExtra("id", -1);
 
-            Bus newbus = MainActivity.listBusMain.get(busId);
+            Bus newbus = Algorithm.<Bus>find(MainActivity.listBusMain, bus -> {
+                return bus.id == busId;
+            });
 
-            busName.setText(/*String.valueOf(busId)*/newbus.name);
+            busName.setText(newbus.name);
 
-            Payment payment = PaymentActivity.listPayment.get(buyerId);
+            Payment payment = Algorithm.<Payment>find(PaymentActivity.listPayment, pay -> {
+                return pay.id == buyerId;
+            });
 
+            buyerIdTextView.setText(String.valueOf(LoginActivity.loggedAccount.id));
             bookedSeat.setText(intent.getStringExtra("busSeats"));
             bookedSched.setText(intent.getStringExtra("departureDate"));
 
-            Button acceptBooking = this.findViewById(R.id.acceptBooking);
+            switch (intent.getStringExtra("status")){
+                case "SUCCESS":
+
+                case "FAILED":
+                    acceptBooking.setVisibility(View.GONE);
+                    cancelBooking.setVisibility(View.GONE);
+                    stat = this.findViewById(R.id.stat);
+                    stat.setText("Status Already Confirmed");
+                    break;
+
+                default:
+//                    stat.setVisibility(View.GONE);
+
+                    break;
+            }
+
             acceptBooking.setOnClickListener(view -> {
                 handleAccept();
             });
-            Button cancelBooking = this.findViewById(R.id.cancelBooking);
+
             cancelBooking.setOnClickListener(view -> {
                 handleCancel();
             });
@@ -70,18 +113,17 @@ public class PaymentStatusActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles the acceptance of a payment.
+     */
     protected void handleAccept() {
-        //id = acc.id;
         Account acc = LoginActivity.loggedAccount;
-        Double bus = AddBusActivity.harga;
-
+        Payment pay = PaymentActivity.listPayment.get(buyerId);
         Intent intent = this.getIntent();
         Bundle bundle = getIntent().getExtras();
 
         if(intent != null) {
-            buyerId = this.getIntent().getIntExtra("buyerId", -1);
-
-            mApiService.accept(buyerId).enqueue(new Callback<BaseResponse<Payment>>() {
+            mApiService.accept(id).enqueue(new Callback<BaseResponse<Payment>>() {
                 @Override
                 public void onResponse(Call<BaseResponse<Payment>> call, Response<BaseResponse<Payment>> response) {
                     if (!response.isSuccessful()) {
@@ -92,7 +134,6 @@ public class PaymentStatusActivity extends AppCompatActivity {
 
                     if (res.success) {
                         viewToast(mContext, "Validating Your Ticket");
-                        acc.balance = acc.balance - bus/*bus.price.price*/;
                         finish();
                     }
 
@@ -108,17 +149,23 @@ public class PaymentStatusActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles the cancellation of a payment.
+     */
     protected void handleCancel() {
         //id = acc.id;
         Account acc = LoginActivity.loggedAccount;
-        Bus bus = (Bus) ManageBusActivity.listBus;
         Intent intent = this.getIntent();
         Bundle bundle = getIntent().getExtras();
+        /*Payment payment = Algorithm.<Payment>find(PaymentActivity.listPayment, pay -> {
+            return pay.buyerId == buyerId;
+        });*/
+        Payment pay = PaymentActivity.listPayment.get(buyerId);
 
         if(intent != null) {
-            buyerId = this.getIntent().getIntExtra("buyerId", -1);
+            //buyerId = this.getIntent().getIntExtra("buyerId", -1);
 
-            mApiService.cancel(buyerId).enqueue(new Callback<BaseResponse<Payment>>() {
+            mApiService.cancel(id).enqueue(new Callback<BaseResponse<Payment>>() {
                 @Override
                 public void onResponse(Call<BaseResponse<Payment>> call, Response<BaseResponse<Payment>> response) {
                     if (!response.isSuccessful()) {
@@ -128,7 +175,7 @@ public class PaymentStatusActivity extends AppCompatActivity {
                     BaseResponse<Payment> res = response.body();
 
                     if (res.success) {
-                        viewToast(mContext, "Validating Your Ticket");
+                        viewToast(mContext, "Cancelling Your Ticket");
                         //acc.balance = acc.balance - bus.price.price;
                         finish();
                     }

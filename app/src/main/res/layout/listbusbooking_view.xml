@@ -132,6 +132,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
+            <ImageView
+                android:id="@+id/info"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:src="@drawable/baseline_info_24"
+                app:tint="#ABABAB" />
+
 
             <ImageView
                 android:id="@+id/bookSeat"

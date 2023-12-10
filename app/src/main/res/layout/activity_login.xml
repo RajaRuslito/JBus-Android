@@ -78,15 +78,20 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/forgotpass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:padding="10dp"
                     android:text="Forgot Password?">
 
-                </TextView>
 
+                </TextView>
+                <!--<CheckBox
+                    android:id="@+id/rememberMe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Remember Me"/>-->
                 <Button
                     android:id="@+id/login_button"
                     android:layout_width="match_parent"

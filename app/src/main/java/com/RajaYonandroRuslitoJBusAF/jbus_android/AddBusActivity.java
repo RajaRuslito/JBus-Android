@@ -32,7 +32,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The AddBusActivity class represents the screen for adding a new bus. It allows users to input
+ * details such as bus name, capacity, price, facilities, and type. Users can also select departure
+ * and arrival stations from the available options.
+ */
 public class AddBusActivity extends AppCompatActivity {
+
+    // Class variables and constants
     private BusType[] busType = BusType.values();
     private BusType selectedBusType;
     private Spinner busTypeSpinner;
@@ -52,7 +59,12 @@ public class AddBusActivity extends AppCompatActivity {
     private Button addBusButton = null;
     public static Double harga;
 
-
+    /**
+     * Initializes the activity, hides the action bar, and sets up UI components such as spinners,
+     * checkboxes, and buttons.
+     *
+     * @param /savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,46 +96,51 @@ public class AddBusActivity extends AppCompatActivity {
         handleBusType();
         handleStation();
 
-        addBusButton.setOnClickListener(view ->{
+        addBusButton.setOnClickListener(view -> {
             handleFacilites();
             handleCreateBus();
         });
     }
 
-    public void handleFacilites(){
+    /**
+     * Handles the selection of facilities (checkboxes) and populates the selectedFacilities list.
+     */
+    public void handleFacilites() {
         selectedFacilities.clear();
-        if(acCheckBox.isChecked()){
+        if (acCheckBox.isChecked()) {
             selectedFacilities.add(Facility.AC);
         }
-        if(wifiCheckBox.isChecked()){
+        if (wifiCheckBox.isChecked()) {
             selectedFacilities.add(Facility.WIFI);
         }
-        if(toiletCheckBox.isChecked()){
+        if (toiletCheckBox.isChecked()) {
             selectedFacilities.add(Facility.TOILET);
         }
-        if(lcdCheckBox.isChecked()){
+        if (lcdCheckBox.isChecked()) {
             selectedFacilities.add(Facility.LCD_TV);
         }
-        if(coolboxCheckBox.isChecked()){
+        if (coolboxCheckBox.isChecked()) {
             selectedFacilities.add(Facility.COOL_BOX);
         }
-        if(lunchCheckBox.isChecked()){
+        if (lunchCheckBox.isChecked()) {
             selectedFacilities.add(Facility.LUNCH);
         }
-        if(baggageCheckBox.isChecked()){
+        if (baggageCheckBox.isChecked()) {
             selectedFacilities.add(Facility.LARGE_BAGGAGE);
         }
-        if(electricCheckBox.isChecked()){
+        if (electricCheckBox.isChecked()) {
             selectedFacilities.add(Facility.ELECTRIC_SOCKET);
         }
-
     }
 
-    public void handleStation(){
+    /**
+     * Retrieves the list of stations from the server and populates the departure and arrival spinners.
+     */
+    public void handleStation() {
         mApiService.getAllStation().enqueue(new Callback<List<Station>>() {
             @Override
             public void onResponse(Call<List<Station>> call, Response<List<Station>> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     Toast.makeText(mContext, "ERROR" + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -170,8 +187,10 @@ public class AddBusActivity extends AppCompatActivity {
 
     }
 
-
-    public void handleBusType(){
+    /**
+     * Sets up the bus type spinner and handles the selection of bus types.
+     */
+    public void handleBusType() {
         busTypeSpinner = this.findViewById(R.id.bus_type_dropdown);
         ArrayAdapter adBus = new ArrayAdapter(this, android.R.layout.simple_list_item_1, busType);
         adBus.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
@@ -191,25 +210,34 @@ public class AddBusActivity extends AppCompatActivity {
         busTypeSpinner.setOnItemSelectedListener(busTypeOISL);
     }
 
-    private void viewToast(Context ctx, String message){
+    /**
+     * Displays a toast message to provide feedback to the user.
+     *
+     * @param /ctx     The context of the current activity.
+     * @param /message The message to be displayed in the toast.
+     */
+    private void viewToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void handleCreateBus(){
+    /**
+     * Handles the process of creating a new bus by sending a request to the server with the provided details.
+     */
+    public void handleCreateBus() {
         String nameS = addBusName.getText().toString();
         int capacity = Integer.parseInt(busCapacity.getText().toString());
         int price = Integer.parseInt(busPrice.getText().toString());
         harga = Double.parseDouble(busPrice.getText().toString());
 
-        mApiService.create(LoginActivity.loggedAccount.company.id, nameS, capacity, selectedFacilities, selectedBusType, price, selectedDeptStationID, selectedArrStationID ).enqueue(new Callback<BaseResponse<Bus>>() {
+        mApiService.create(LoginActivity.loggedAccount.id, nameS, capacity, selectedFacilities, selectedBusType, price, selectedDeptStationID, selectedArrStationID).enqueue(new Callback<BaseResponse<Bus>>() {
             @Override
             public void onResponse(Call<BaseResponse<Bus>> call, Response<BaseResponse<Bus>> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     Toast.makeText(mContext, "ERROR" + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 BaseResponse<Bus> res = response.body();
-                if(res.success){
+                if (res.success) {
                     moveActivity(mContext, ManageBusActivity.class);
                     viewToast(mContext, "Success Add Bus");
                     finish();
@@ -223,6 +251,13 @@ public class AddBusActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Moves to another activity within the application.
+     *
+     * @param /ctx The context of the current activity.
+     * @param /cls The class of the target activity.
+     */
     private void moveActivity(Context ctx, Class<?> cls) {
         Intent intent = new Intent(ctx, cls);
         startActivity(intent);

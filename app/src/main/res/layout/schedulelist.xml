@@ -27,27 +27,9 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
+
             <TextView
-                android:id="@+id/textView1"
-                android:layout_width="273dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="Bus Name"
-                android:textColor="@android:color/black"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                tools:ignore="RtlHardcoded" />
-            <TextView
-                android:id="@+id/bookedSeatConf"
-                android:layout_width="273dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="Booked Seat"
-                android:textColor="@android:color/black"
-                android:textSize="20dp"
-                tools:ignore="RtlHardcoded" />
-            <TextView
-                android:id="@+id/bookedSchedConf"
+                android:id="@+id/schedList"
                 android:layout_width="273dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -55,8 +37,6 @@
                 android:textColor="@android:color/black"
                 android:textSize="20dp"
                 tools:ignore="RtlHardcoded" />
-
-
 
 
         </LinearLayout>
@@ -71,14 +51,13 @@
 
             <ImageView
                 android:id="@+id/editBookingImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginVertical="5dp"
                 android:src="@drawable/baseline_edit_24"
                 android:tint="#2A3C5E"
                 tools:ignore="UseAppTint" />
-
         </LinearLayout>
     </LinearLayout>
 

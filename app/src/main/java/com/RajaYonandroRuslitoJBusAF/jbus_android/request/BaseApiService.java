@@ -7,6 +7,7 @@ import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Account;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BaseResponse;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Bus;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BusType;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.City;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Facility;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Payment;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Renter;
@@ -100,11 +101,17 @@ public interface BaseApiService {
     Call<BaseResponse<Payment>> cancel(
             @Path("id") int id
     );
-
-    @GET("bus/{id}")
-    Call<Bus> getBusbyId(@Path("id") int id);
-
     @GET("payment/getMyPayment")
-    Call<List<Payment>> getMyPayment();
+    Call<List<Payment>> getMyPayment(
+            @Query("buyerId") int buyerId
+    );
+
+    @POST("station/create")
+    Call<BaseResponse<Station>> createStation(
+            @Query("stationName") String stationName,
+            @Query("city") String city,
+            @Query("address") String address
+    );
+
 }
 

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/loginbg"
-    tools:context=".BusInformationActivity"
+    tools:context=".BusInfoMain"
     android:orientation="vertical">
 
     <TextView
@@ -295,7 +295,7 @@
                 android:id="@+id/scheduleListView"
                 android:layout_width="match_parent"
                 android:layout_height="287dp"
-                tools:listitem="@layout/schedulelist" />
+                tools:listitem="@layout/mainschedlist" />
 
         </LinearLayout>
 

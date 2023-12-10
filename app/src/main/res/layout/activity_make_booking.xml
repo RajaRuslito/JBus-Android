@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".makeBookingActivity"
-    android:background="@drawable/registerbg">
+    android:background="@drawable/splash">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
         android:layout_marginHorizontal="20dp"
         app:cardCornerRadius="30dp"
         >
@@ -21,6 +20,15 @@
             android:layout_marginTop="20dp"
             android:layout_marginHorizontal="20dp"
             android:orientation="vertical">
+
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical">-->
 
             <TextView
                 android:layout_width="356dp"
@@ -32,7 +40,233 @@
                 android:textColor="@color/black"
                 android:textSize="40dp"
                 android:textStyle="bold" />
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/nameOfBus"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:text="Bus Name"
+                    android:textColor="@color/black"
+                    android:textSize="28dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/typeOfBus"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:text="Bus Types"
+                    android:textSize="20dp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:text="Renter ID :"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/idOfCompany"
+                    android:layout_width="108dp"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="Bus ID :"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/idOfBus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bus ID"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Bus Details"
+                    android:textColor="@color/black"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Facilities"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/facilities"
+                    android:layout_width="202dp"
+                    android:layout_height="wrap_content"
+                    android:text="Facilities"
+                    android:textSize="20dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Capacity"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/capacity"
+                    android:layout_width="202dp"
+                    android:layout_height="wrap_content"
+                    android:text="Capacity"
+                    android:textSize="20dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Departure"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/departureCity"
+                        android:layout_width="202dp"
+                        android:layout_height="wrap_content"
+                        android:text="City"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/departureStation"
+                        android:layout_width="202dp"
+                        android:layout_height="wrap_content"
+                        android:text="Station"
+                        android:textSize="20dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Arrival"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/arrivalCity"
+                        android:layout_width="202dp"
+                        android:layout_height="wrap_content"
+                        android:text="City"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/arrivalStation"
+                        android:layout_width="202dp"
+                        android:layout_height="wrap_content"
+                        android:text="Station"
+                        android:textSize="20dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                >
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Price"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="202dp"
+                    android:layout_height="wrap_content"
+                    android:text="Price"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:orientation="horizontal">
@@ -96,7 +330,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
             </LinearLayout>
-            <LinearLayout
+            &lt;!&ndash;<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:orientation="horizontal">
@@ -116,7 +350,7 @@
                     android:text="Company ID"
                     android:textSize="20dp"
                     android:textStyle="bold" />
-            </LinearLayout>
+            </LinearLayout>&ndash;&gt;
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -137,7 +371,7 @@
                     android:text="Capacity"
                     android:textSize="20dp"
                     android:textStyle="bold" />
-            </LinearLayout>
+            </LinearLayout>-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,30 +394,28 @@
                     android:layout_height="48dp" />
 
             </LinearLayout>
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                >
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/topup_abtme"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:hint="Seat to Book"
-                    >
+                    android:text="Seat"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/seatToBook"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <Spinner
+                    android:id="@+id/bookMySeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp" />
 
             </LinearLayout>
-
 
             <Button
                 android:id="@+id/bookButton"

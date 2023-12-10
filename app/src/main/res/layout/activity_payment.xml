@@ -6,20 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".PaymentActivity"
     android:orientation="vertical"
-    android:background="@drawable/newbgmain">
+    android:background="@drawable/aboutmebg">
 
-    <androidx.appcompat.widget.SearchView
-        android:layout_width="345dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/search_bg"
-        android:gravity="center"
-        app:queryHint="Search.." />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="728dp"
+        android:layout_height="797dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
@@ -27,13 +19,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Manage Your Seat"
             android:textColor="@color/black"
             android:textSize="30dp"
-            android:textStyle="bold" />
+            android:textStyle="bold|italic" />
 
         <ListView
             android:id="@+id/listView"

@@ -38,14 +38,14 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="220dp"
+                android:layout_width="201dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/username"
-                    android:layout_width="227dp"
+                    android:layout_width="204dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/white"
@@ -63,6 +63,13 @@
                     android:textStyle="italic"
                     tools:text="-" />
             </LinearLayout>
+            <ImageView
+                android:id="@+id/logOut"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/baseline_exit_to_app_24"
+                android:clickable="true"
+                app:tint="@color/white" />
 
         </LinearLayout>
 
@@ -82,38 +89,6 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical">
-
-                <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:orientation="vertical">-->
-
-                <!--<LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    &lt;!&ndash;<TextView
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="USERNAME"
-                        android:textSize="16sp" />&ndash;&gt;
-
-                    <TextView
-                        android:id="@+id/email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        tools:text="-" />
-                </LinearLayout>
-            </LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -195,6 +170,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/companyTV"
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -228,6 +204,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/addressTV"
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -289,7 +266,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/renterform"
             android:layout_width="match_parent"
-            android:layout_height="135dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:orientation="vertical"
@@ -298,7 +275,7 @@
 
             <LinearLayout
                 android:layout_width="390dp"
-                android:layout_height="159dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -344,6 +321,30 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:cornerRadius="21dp" />
+                <TextView
+                    android:id="@+id/newStation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:gravity="center"
+                    android:text="Want to Make Your Own Station?"
+                    android:textAlignment="center"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/regStation_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="Register Your Station Now!"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

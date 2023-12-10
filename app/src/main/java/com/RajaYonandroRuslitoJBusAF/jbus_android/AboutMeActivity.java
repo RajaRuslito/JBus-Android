@@ -32,7 +32,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The AboutMeActivity class represents the user profile screen, displaying information about the user,
+ * including username, email, account balance, and options for managing a bus company or topping up the account.
+ */
 public class AboutMeActivity extends AppCompatActivity {
+
+    // Class variables and constants
+
+    /**
+     * Initializes the activity, hides the action bar, and sets up the UI components.
+     *
+     * @param /savedInstanceState The saved instance state bundle.
+     */
     private TextView balanceTextView;
     private Button topupButton = null;
     private TextInputEditText topUpEdit;
@@ -42,6 +54,7 @@ public class AboutMeActivity extends AppCompatActivity {
     private TextView registerCompany = null;
     private BottomNavigationView nav;
     private Button logOff = null;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -66,14 +79,10 @@ public class AboutMeActivity extends AppCompatActivity {
         //Account acc =
         Account account = LoginActivity.loggedAccount;
         if (LoginActivity.loggedAccount != null) {
-
-
             initial.setText(account.name.toUpperCase().substring(0, 1));
             usernameTextView.setText(account.name);
             emailTextView.setText(account.email);
             balanceTextView.setText("IDR " + String.valueOf(account.balance));
-
-
 
             if (LoginActivity.loggedAccount.company != null) {
                 // Already a renter - Show renter-related data and a button to manage the bus
@@ -90,11 +99,16 @@ public class AboutMeActivity extends AppCompatActivity {
                 // Update other UI elements with renter's information like company name, address, phone number
 
                 // Implement a listener for a button or component to manage the bus
-
                 Button manageBusButton = findViewById(R.id.manageNow);
                 manageBusButton.setOnClickListener(v -> {
                     moveActivity(mContext, ManageBusActivity.class);
                 });
+
+                TextView newStationCreate = findViewById(R.id.regStation_now);
+                newStationCreate.setOnClickListener(view -> {
+                    moveActivity(mContext, CreateStationActivity.class);
+                });
+
             } else {
                 // Not a renter - Show a message prompting to register as a renter
                 TextView textView = findViewById(R.id.statusRenter);
@@ -103,12 +117,22 @@ public class AboutMeActivity extends AppCompatActivity {
                 TextView phoneNum = findViewById(R.id.phoneNum);
                 TextView comName = findViewById(R.id.compName);
                 TextView comAddress = findViewById(R.id.comAddress);
+                TextView comNameTV = findViewById(R.id.companyTV);
+                TextView comAddressTV = findViewById(R.id.addressTV);
+                TextView newStatTV = findViewById(R.id.newStation);
+                TextView newStat = findViewById(R.id.regStation_now);
                 // Implement a listener for a component to navigate to the registration page
                 Button manageBusButton = findViewById(R.id.manageNow);
                 manageBusButton.setVisibility(View.GONE);
                 phoneNum.setVisibility(View.GONE);
                 comName.setVisibility(View.GONE);
                 comAddress.setVisibility(View.GONE);
+                comNameTV.setVisibility(View.GONE);
+                comAddressTV.setVisibility(View.GONE);
+                newStatTV.setVisibility(View.GONE);
+                newStat.setVisibility(View.GONE);
+
+
 
                 registerCompany.setOnClickListener(view -> {
                     moveActivity(this, RegisterRenterActivity.class);
@@ -116,25 +140,31 @@ public class AboutMeActivity extends AppCompatActivity {
             }
 
 
-
+            ImageView logOut = findViewById(R.id.logOut);
+            logOut.setOnClickListener(view -> {
+                Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
+                moveActivity(this, LoginActivity.class);
+            });
         }
 
         nav = findViewById(R.id.bottom_nav);
 
         mContext = this;
         mApiService = UtilsApi.getApiService();
-
         nav.setSelectedItemId(R.id.profile);
 
+        /**
+         * Moves to another activity within the application.
+         *
+         * @bottomNavigationMenu allows user to move to other activites within the application
+         */
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            //@SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 int itemId = item.getItemId();
                 if (itemId == R.id.profile) {
                     Toast.makeText(AboutMeActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-                    /*moveActivity(mContext, AboutMeActivity.class);*/
                     return true;
                 }
                 else if (itemId == R.id.payment) {
@@ -143,15 +173,11 @@ public class AboutMeActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), PaymentActivity.class));
                         overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_right);
                         return true;
-                        /*Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
-                        moveActivity(mContext, PaymentActivity.class);*/
                     }else {
                         Toast.makeText(AboutMeActivity.this, "Payment", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), NotRegisteredActivity.class));
                         overridePendingTransition(R.anim.enter_from_left, R.anim.exit_from_right);
                         return true;
-                        /*Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
-                        moveActivity(mContext, NotRegisteredActivity.class);*/
                     }
                 }
                 else if (itemId == R.id.home) {
@@ -163,8 +189,11 @@ public class AboutMeActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        /**
+         * Handles the top-up process by sending a request to the server and updating the user's account balance.
+         */
         topupButton.setOnClickListener(view -> {
-            //Account account = LoginActivity.loggedAccount;
             handleTopUp();
 
         });
@@ -172,19 +201,35 @@ public class AboutMeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Moves to another activity within the application.
+     *
+     * @param /ctx The context of the current activity.
+     * @param /cls The class of the target activity.
+     */
     private void moveActivity(Context ctx, Class<?> cls) {
         Intent intent = new Intent(ctx, cls);
         startActivity(intent);
     }
 
+    /**
+     * Displays a toast message to provide feedback to the user.
+     *
+     * @param /ctx     The context of the current activity.
+     * @param /message The message to be displayed in the toast.
+     */
     private void viewToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * A handle created to help user handling top up activites.
+     *
+     * @ApiService /topUp helps connect the button to the back end allowing both back and front end to communicate
+     */
     protected void handleTopUp() {
         double topUpAmount = Double.parseDouble(topUpEdit.getText().toString());
         Account acc = LoginActivity.loggedAccount;
-        //id = acc.id;
         if (topUpAmount == 0.0d) {
             Toast.makeText(mContext, "Input the amount!", Toast.LENGTH_SHORT).show();
             return;

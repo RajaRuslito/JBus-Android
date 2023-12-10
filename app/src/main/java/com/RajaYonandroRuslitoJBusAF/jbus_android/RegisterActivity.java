@@ -20,6 +20,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activity for user registration.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView loginNow = null;
@@ -29,8 +32,16 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText name, email, password;
     public static Account loggedAccount;
 
-    //private Button registerButton = null;
-
+    /**
+     * Called when the activity is starting. This is where most initialization should go:
+     * calling setContentView(int) to inflate the activity's UI, using findViewById(int)
+     * to programmatically interact with widgets in the UI, and setting up event listeners.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                           being shut down, this Bundle contains the data it most
+     *                           recently supplied in onSaveInstanceState(Bundle).
+     *                           Note: Otherwise, it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,28 +57,41 @@ public class RegisterActivity extends AppCompatActivity {
         });
         registerButton.setOnClickListener(e -> {
             handleRegister();
-            //moveActivity(this, LoginActivity.class);
         });
 
         mContext = this;
         mApiService = UtilsApi.getApiService();
-// sesuaikan dengan ID yang kalian buat di layout
+        // sesuaikan dengan ID yang kalian buat di layout
         name = (TextInputEditText) findViewById(R.id.username_reg);
         email = (TextInputEditText) findViewById(R.id.email_reg);
         password = (TextInputEditText) findViewById(R.id.password_reg);
-        //registerButton = findViewById(R.id.button_register);
 
     }
 
+    /**
+     * Moves to another activity.
+     *
+     * @param ctx The context from which the activity is started.
+     * @param cls The class of the activity to start.
+     */
     private void moveActivity(Context ctx, Class<?> cls) {
         Intent intent = new Intent(ctx, cls);
         startActivity(intent);
     }
 
+    /**
+     * Displays a toast message.
+     *
+     * @param ctx     The context in which the toast message should be displayed.
+     * @param message The message to display in the toast.
+     */
     private void viewToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Handles the registration process.
+     */
     protected void handleRegister() {
         String nameS = name.getText().toString();
         String emailS = email.getText().toString();
@@ -81,7 +105,6 @@ public class RegisterActivity extends AppCompatActivity {
         if (!nameS.isEmpty() && !emailS.isEmpty() && !passwordS.isEmpty()) {
             viewToast(this, "TRUE");
 
-            //Account account = new Account(nameS, emailS, passwordS, 0.0D);
             mApiService.register(nameS, emailS, passwordS).enqueue(new Callback<BaseResponse<Account>>() {
                 @Override
                 public void onResponse(Call<BaseResponse<Account>> call, Response<BaseResponse<Account>> response) {

@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+/** This class is not used as of now
+ * This class was supposed to be used to either edit or delete the schedule of the desired bus
+ */
 public class ManageBusScheduleActivity extends AppCompatActivity {
 
     @Override

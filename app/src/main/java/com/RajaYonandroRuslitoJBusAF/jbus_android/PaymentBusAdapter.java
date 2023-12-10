@@ -18,21 +18,18 @@ import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Payment;
 
 import java.util.List;
 
+/** This class is not used as of now
+ */
 public class PaymentBusAdapter extends ArrayAdapter<Bus> {
 
     private Context context;
     private List<Bus> arrayList;
-    /*private final Activity activity;*/
-    public PaymentBusAdapter(@NonNull Context context, int resource, @NonNull List<Bus> arrayList/*, Activity activity*/) {
+    public PaymentBusAdapter(@NonNull Context context, int resource, @NonNull List<Bus> arrayList) {
         super(context, resource, arrayList);
         this.context = context;
         this.arrayList = arrayList;
-        /*this.activity = activity;*/
     }
 
-    /*public PaymentBusAdapter(Context mContext, List<Payment> scheduleList) {
-        super();
-    }*/
 
     @NonNull
     @Override
@@ -50,16 +47,7 @@ public class PaymentBusAdapter extends ArrayAdapter<Bus> {
         //TextView paymentTextView = convertView.findViewById(R.id.busScheds);
 
         if(newbus != null){
-            //paymentTextView.setText(newbus.schedules.toString());
-            /*priceTextView.setText("IDR " + String.format("%.0f", newbus.price.price));
-            View currentItemView = convertView;
-            ImageView addSched = currentItemView.findViewById(R.id.bookSeat);
-            addSched.setOnClickListener(v->{
-                Intent i = new Intent(context, makeBookingActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.putExtra("busId", newbus.id);
-                context.startActivity(i);
-            });*/
+
         }
         return convertView;
     }

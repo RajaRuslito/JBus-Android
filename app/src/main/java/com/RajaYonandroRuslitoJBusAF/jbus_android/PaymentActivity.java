@@ -2,6 +2,7 @@ package com.RajaYonandroRuslitoJBusAF.jbus_android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Account;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Algorithm;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BaseResponse;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Bus;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Payment;
@@ -32,8 +34,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activity for handling payment-related functionality.
+ */
 public class PaymentActivity extends AppCompatActivity {
 
+    // Instance variables
     private BottomNavigationView nav;
     private ListView listView;
     public static List<Bus> listBus = new ArrayList<>();
@@ -42,8 +48,13 @@ public class PaymentActivity extends AppCompatActivity {
     private HorizontalScrollView pageScroll = null;
     private Context mContext;
     private BaseApiService mApiService;
-    private ImageView acceptPay;
-    private ImageView cancelPay;
+    private SearchView searchView;
+
+    /**
+     * Initializes the payment activity.
+     *
+     * @param savedInstanceState The saved state of the activity.
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +63,12 @@ public class PaymentActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        // Initialize UI elements
         nav = findViewById(R.id.bottom_nav);
-
         mContext = this;
         mApiService = UtilsApi.getApiService();
-        /*acceptPay = (ImageView) findViewById(R.id.acceptPayment);
-        cancelPay = (ImageView) findViewById(R.id.cancelPayment);*/
 
+        // Set up bottom navigation
         nav.setSelectedItemId(R.id.payment);
 
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,21 +83,16 @@ public class PaymentActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), AboutMeActivity.class));
                         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_left);
                         return true;
-                        /*Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-                        moveActivity(mContext, AboutMeActivity.class);*/
                     }else {
                         Toast.makeText(PaymentActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), NotRegisteredActivity.class));
                         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_left);
                         return true;
-                        /*Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-                        moveActivity(mContext, NotRegisteredActivity.class);*/
                     }
                 }
                 else if (itemId == R.id.payment) {
                     if(LoginActivity.loggedAccount != null){
                         Toast.makeText(PaymentActivity.this, "Payment", Toast.LENGTH_SHORT).show();
-                        //moveActivity(mContext, PaymentActivity.class);
                         return true;
                     }else {
                         Toast.makeText(PaymentActivity.this, "Payment", Toast.LENGTH_SHORT).show();
@@ -103,41 +108,37 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
-        /*handleBusBooking();*/
+        // Handle payment functionality
         handlePayment();
-        //loadMyBus();
     }
+
+    /**
+     * Starts a new activity.
+     *
+     * @param ctx The context from which the activity is started.
+     * @param cls The class of the activity to start.
+     */
     private void moveActivity(Context ctx, Class<?> cls) {
         Intent intent = new Intent(ctx, cls);
         startActivity(intent);
     }
 
+    /**
+     * Displays a toast message.
+     *
+     * @param ctx     The context in which the toast message should be displayed.
+     * @param message The message to display in the toast.
+     */
     private void viewToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
-    /*protected void loadMyBus() {
-        int temp = 0;
-        mApiService.getMyBus(*//*LoginActivity.loggedAccount.id*//* 0).enqueue(new Callback<List<Bus>>() {
-            @Override
-            public void onResponse(Call<List<Bus>> call, Response<List<Bus>> response) {
-                if (!response.isSuccessful()) return;
 
-                List<Bus> myBusList = response.body();
-                ListView busListView = (ListView) findViewById(R.id.listView);
-                listBus = myBusList;
-                BusArrayAdapter adapter = new BusArrayAdapter(getApplicationContext(), R.layout.bookedd_seat_listview, myBusList, PaymentActivity.this);
-                busListView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Bus>> call, Throwable t) {
-
-            }
-        });
-    }*/
-
+    /**
+     * Handles payment-related functionality, including retrieving user payments.
+     */
     protected void handlePayment() {
-        mApiService.getMyPayment().enqueue(new Callback<List<Payment>>() {
+        Account acc = LoginActivity.loggedAccount;
+        mApiService.getMyPayment(acc.id).enqueue(new Callback<List<Payment>>() {
             @Override
             public void onResponse(Call<List<Payment>> call, Response<List<Payment>> response) {
                 if (!response.isSuccessful()) return;
@@ -147,74 +148,10 @@ public class PaymentActivity extends AppCompatActivity {
                 listPayment = paymentList;
                 PaymentArrayAdapter adapter = new PaymentArrayAdapter(getApplicationContext(), R.layout.bookedd_seat_listview, listPayment, PaymentActivity.this);
                 bookedListView.setAdapter(adapter);
-
             }
-
             @Override
             public void onFailure(Call<List<Payment>> call, Throwable t) {
-
             }
         });
     }
-
-
-
-
-    /*public void handleBusBooking(){
-        Account acc = LoginActivity.loggedAccount;
-        Payment bus = AddSchedule.loggedBus;
-        mApiService.getBuses().enqueue(new Callback<BaseResponse<List<Bus>>>() {
-            @Override
-            public void onResponse(Call<BaseResponse<List<Bus>>> call, Response<BaseResponse<List<Bus>>> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(mContext, "ERROR" + response.code(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                BaseResponse<List<Bus>> resp = response.body();
-                if (response.isSuccessful()) {
-                    listBus.clear();
-                    for(Bus b : resp.payload) {
-                        listBus.add(b);
-
-                    }
-                    *//*newBusListView = findViewById(R.id.listBooking);
-                    listSize = listBus.size();
-                    MakeBookingAdapter adapter = new MakeBookingAdapter(getApplicationContext(), R.layout.listbusbooking, listBus);
-                    newBusListView.setAdapter(adapter);*//*
-
-                    bookingBusView = findViewById(R.id.listBooking);
-                    MakeBookingAdapter adapter = new MakeBookingAdapter(getApplicationContext(), R.layout.activity_payment, listBus);
-                    bookingBusView.setAdapter(adapter);
-
-                    bookingBusView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Toast.makeText(mContext, "Booking", Toast.LENGTH_SHORT).show();
-                            moveActivity(mContext, AddSchedule.class);
-                        }
-                    });
-
-                    *//*
-                    newBusListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Toast.makeText(mContext, "Schedule", Toast.LENGTH_SHORT).show();
-                            moveActivity(mContext, AddSchedule.class);
-                        }
-                    });
-*//*
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<BaseResponse<List<Bus>>> call, Throwable t) {
-                Toast.makeText(mContext, "Server ERROR", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
-    }*/
 }

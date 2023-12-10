@@ -8,9 +8,7 @@
     android:orientation="vertical"
     tools:context=".LoginActivity"
     android:background="@drawable/loginbg"
-    > <!-- Add this line -->
-    <!-- Fill the linear layout with some components-->
-
+    >
 
 
     <androidx.cardview.widget.CardView
@@ -58,6 +56,15 @@
                 android:textStyle="bold"
                 tools:ignore="RtlHardcoded" />
             <TextView
+                android:id="@+id/buyerId"
+                android:layout_width="273dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Bus Name"
+                android:textColor="@android:color/black"
+                android:textSize="25dp"
+                tools:ignore="RtlHardcoded" />
+            <TextView
                 android:id="@+id/bookedSeatFinal"
                 android:layout_width="273dp"
                 android:layout_height="wrap_content"
@@ -72,6 +79,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="Scheduled Date"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                tools:ignore="RtlHardcoded" />
+            <TextView
+                android:id="@+id/stat"
+                android:layout_width="273dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="7dp"
+                android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="20dp"
                 tools:ignore="RtlHardcoded" />
@@ -113,36 +130,5 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!--<LinearLayout
-            android:layout_width="390dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingVertical="20dp">
-
-
-            <Button
-                android:id="@+id/acceptBooking"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:paddingVertical="12dp"
-                android:text="LOGIN"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:cornerRadius="21dp" />
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:paddingVertical="12dp"
-                android:text="LOGIN"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:cornerRadius="21dp" />
-
-
-        </LinearLayout>-->
     </androidx.cardview.widget.CardView>
 </LinearLayout>

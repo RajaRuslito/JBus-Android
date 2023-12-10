@@ -1,26 +1,20 @@
 package com.RajaYonandroRuslitoJBusAF.jbus_android;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import com.RajaYonandroRuslitoJBusAF.jbus_android.databinding.ActivityMainBinding;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Account;
@@ -29,7 +23,6 @@ import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Bus;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.request.BaseApiService;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.request.UtilsApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,25 +31,42 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The MainActivity class serves as the main screen of the JBus Android application.
+ * It displays a list of buses and allows users to navigate to different sections of the app
+ * through a bottom navigation bar. Users can search for buses, view their profile, and make payments.
+ */
 public class MainActivity extends AppCompatActivity {
-    private ListView listView;
+
+    // Instace variables
     private Button[] btns;
     private int currentPage = 0;
     private int pageSize = 5;
     private int listSize;
     private int noOfPages;
     public static List<Bus> listBusMain = new ArrayList<>();
+    private List<Bus> searchList = new ArrayList<>();
     private Button prevButton = null;
     private Button nextButton = null;
     private ListView busListView = null;
     private HorizontalScrollView pageScroll = null;
-    //private View accountButton = null;
-    //@SuppressLint("MissingInflatedId")
     private BottomNavigationView nav;
     private Context mContext;
     private BaseApiService mApiService;
-    private int id;
     ActivityMainBinding binding;
+    private SearchView searchView;
+    private ListView listbus;
+
+    /**
+     * Called when the activity is starting. This is where most initialization should go:
+     * calling setContentView(int) to inflate the activity's UI, using findViewById(int)
+     * to programmatically interact with widgets in the UI, and setting up event listeners.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                           being shut down, this Bundle contains the data it most
+     *                           recently supplied in onSaveInstanceState(Bundle).
+     *                           Note: Otherwise, it is null.
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        //busListView = findViewById(R.id.listView);
-        /*//*listBus = Bus.sampleBusList(30);*//*
-        listSize = listBus.size();
 
-        BusArrayAdapter adapter = new BusArrayAdapter(getApplicationContext(), R.layout.modern_bus_view, listBus);
-        listbus.setAdapter(adapter);
-        busListView.setAdapter(adapter);*/
         /*prevButton = findViewById(R.id.prev_page);
         nextButton = findViewById(R.id.next_page);
         pageScroll = findViewById(R.id.page_number_scroll);*/
@@ -91,76 +95,68 @@ public class MainActivity extends AppCompatActivity {
             goToPage(currentPage);
         });*/
 
+        searchView = (SearchView) findViewById(R.id.searchMain);
+        searchView.clearFocus();
+
+
         nav = findViewById(R.id.bottom_nav);
 
         mContext = this;
         mApiService = UtilsApi.getApiService();
 
+        // Set up bottom navigation bar
         nav.setSelectedItemId(R.id.home);
-
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            /*@Override*/
-            /*public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                return false;
-            }
-        });
-        nav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            //@SuppressLint("NonConstantResourceId")*/
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
+                // Handle bottom navigation item clicks
                 int itemId = item.getItemId();
                 if (itemId == R.id.home) {
                     Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
-                    /*moveActivity(mContext, MainActivity.class);*/
                     return true;
                 }
                 else if (itemId == R.id.payment) {
-                    //Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
+                    // Check if the user is logged in
                     if(LoginActivity.loggedAccount != null){
                         Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), PaymentActivity.class));
                         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_left);
                         return true;
-                        /*Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
-                        moveActivity(mContext, PaymentActivity.class);*/
                     }else {
                         Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), NotRegisteredActivity.class));
                         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_left);
                         return true;
-                        /*Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
-                        moveActivity(mContext, NotRegisteredActivity.class);*/
                     }
                 }
                 else if (itemId == R.id.profile) {
+                    // Check if the user is logged in
                     if(LoginActivity.loggedAccount != null){
                         Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), AboutMeActivity.class));
                         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_left);
                         return true;
-                        /*Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-                        moveActivity(mContext, AboutMeActivity.class);*/
                     }else {
                         Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), NotRegisteredActivity.class));
                         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_from_left);
                         return true;
-                        /*Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-                        moveActivity(mContext, NotRegisteredActivity.class);*/
                     }
                 }
                 return true;
             }
         });
 
-        loadMyBus();
-
+        // Load and handle user's buses
+        handleMyBus();
 
 
     }
 
-    /*public void handleMyBus(){
+    /**
+     * Handles the retrieval and display of the user's buses.
+     */
+    public void handleMyBus(){
         Account acc = LoginActivity.loggedAccount;
         mApiService.getBuses().enqueue(new Callback<BaseResponse<List<Bus>>>() {
             @Override
@@ -171,14 +167,36 @@ public class MainActivity extends AppCompatActivity {
                 }
                 BaseResponse<List<Bus>> resp = response.body();
                 if (response.isSuccessful()) {
-                    listBus.clear();
+                    listBusMain.clear();
                     for(Bus b : resp.payload) {
-                        listBus.add(b);
+                        listBusMain.add(b);
                     }
-                    ListView listbus = (ListView) findViewById(R.id.listView);
-                    listSize = listBus.size();
-                    BusArrayAdapter adapter = new BusArrayAdapter(getApplicationContext(), R.layout.activity_main, listBus);
+                    listbus = (ListView) findViewById(R.id.listBooking);
+                    listSize = listBusMain.size();
+                    MakeBookingAdapter adapter = new MakeBookingAdapter(getApplicationContext(), R.layout.listbusbooking_view, listBusMain, MainActivity.this);
                     listbus.setAdapter(adapter);
+
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String s) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String s) {
+                            //adapter.getFilter().filter(s);
+                            //filterList(s);
+                            List<Bus> filteredBus = new ArrayList<>();
+                            for (Bus bus : listBusMain){
+                                if (bus.name.toLowerCase().contains(s.toLowerCase())){
+                                    filteredBus.add(bus);
+                                }
+                            }
+                            MakeBookingAdapter adapter = new MakeBookingAdapter(getApplicationContext(), R.layout.listbusbooking_view, filteredBus, MainActivity.this);
+                            listbus.setAdapter(adapter);
+                            return false;
+                        }
+                    });
 
                 }
 
@@ -192,33 +210,14 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-    }*/
-    protected void loadMyBus() {
-        int temp = 0;
-        mApiService.getMyBus(/*LoginActivity.loggedAccount.id*/ temp).enqueue(new Callback<List<Bus>>() {
-            @Override
-            public void onResponse(Call<List<Bus>> call, Response<List<Bus>> response) {
-                if (!response.isSuccessful()) return;
-
-                List<Bus> myBusList = response.body();
-                ListView busListView = (ListView) findViewById(R.id.listBooking);
-                listBusMain = myBusList;
-                MakeBookingAdapter adapter = new MakeBookingAdapter(getApplicationContext(), R.layout.listbusbooking_view, listBusMain, MainActivity.this);
-                busListView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Bus>> call, Throwable t) {
-
-            }
-        });
     }
-   /* public void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
-        fragmentTransaction.commit();
-    }*/
+
+    /**
+     * Creates the options menu in the action bar.
+     *
+     * @param menu The options menu in which you place your items.
+     * @return Returns true for the menu to be displayed; false for it not to be displayed.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -226,6 +225,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Handles options menu item selection.
+     *
+     * @param item The menu item that was selected.
+     * @return Returns false to allow normal menu processing to proceed, true to consume it here.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -241,11 +246,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent) ;
     }
 
+    /**
+     * Moves to another activity based on the provided class.
+     *
+     * @param ctx The context of the current activity.
+     * @param cls The class of the activity to move to.
+     */
     private void moveActivity(Context ctx, Class<?> cls){
         Intent intent = new Intent(ctx, cls);
         startActivity(intent);
     }
 
+    /**
+     * Displays a toast message with the given message.
+     *
+     * @param ctx     The context of the current activity.
+     * @param message The message to be displayed in the toast.
+     */
     private void viewToast(Context ctx, String message){
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }

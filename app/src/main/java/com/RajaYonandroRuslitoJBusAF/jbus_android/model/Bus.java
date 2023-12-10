@@ -6,6 +6,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Bus class represents a bus with various details such as capacity, facilities, schedule, etc.
+ */
 public class Bus extends Serializable
 {
     public int capacity;
@@ -19,33 +22,12 @@ public class Bus extends Serializable
     public List<Schedule> schedules;
     public int accountId;
 
-    /*public Bus(String name, List<Facility> facilities, Price price, int capacity, BusType busType, City city, Station departure, Station arrival, int accountId){
-        super();
-        this.name = name;
-        this.facilities = facilities;
-        this.price = price;
-        this.capacity = capacity;
-        this.departure = departure;
-        this.arrival = arrival;
-        this.busType = busType;
-        //this.city = city;
-        this.schedules = new ArrayList<>();
-        this.accountId = id;
-    }*/
-    /*public void addSchedule(Timestamp calendar){
-        Schedule schedule = new Schedule(calendar, capacity);
-        schedules.add(schedule);
-    }*//*
-    public String toString(){
-        return " ID : " + id + "\n String objek : " + name + "\n Facility : " + facilities + "\n Price : " + price + "\n Capacity : " + capacity + "\n Bus Type : " + busType + "\n City : " *//*+ city*//* + "\n\n Departure = " + departure + "\n Arrival = " + arrival;
-    }
-    public boolean read(String obj){
-        return false;
-    }
-    public Object write(){
-        return null;
-    }*/
-
+    /**
+     * Generates a sample list of buses with specified size for testing purposes.
+     *
+     * @param size The size of the sample bus list.
+     * @return A list of sample buses.
+     */
     public static List<Bus> sampleBusList(int size) {
         List<Bus> busList = new ArrayList<Bus>();
 
@@ -68,6 +50,11 @@ public class Bus extends Serializable
         return busList;
     }
 
+    /**
+     * Returns a string representation of the bus.
+     *
+     * @return A string containing bus details.
+     */
     @NonNull
     @Override
     public String toString() {

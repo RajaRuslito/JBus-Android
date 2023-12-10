@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,10 +20,10 @@ import com.RajaYonandroRuslitoJBusAF.jbus_android.request.UtilsApi;
 import com.google.android.material.textfield.TextInputEditText;
 
 /**
- * The BusInformationActivity class is an activity that displays detailed information about a specific bus.
+ * The BusInfoMain class is an activity that displays detailed information about a specific bus.
  * It retrieves data from the intent and displays it in the corresponding layout elements.
  */
-public class BusInformationActivity extends AppCompatActivity {
+public class BusInfoMain extends AppCompatActivity {
 
     // Class variables and constants
     private Context mContext;

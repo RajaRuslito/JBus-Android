@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.RajaYonandroRuslitoJBusAF.jbus_android.databinding.ActivityAddScheduleBinding;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Account;
+import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Algorithm;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.BaseResponse;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Bus;
 import com.RajaYonandroRuslitoJBusAF.jbus_android.model.Payment;
@@ -40,8 +41,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The AddSchedule class represents the screen for adding schedules to a bus. It allows users to select
+ * a date and time for the new schedule and associates it with a specific bus.
+ */
 public class AddSchedule extends AppCompatActivity {
 
+    // Class variables and constants
     private Context mContext;
     private BaseApiService mApiService;
     ActivityAddScheduleBinding binding;
@@ -49,9 +55,15 @@ public class AddSchedule extends AppCompatActivity {
     private int busId;
     private ImageView addSchedule;
     private String selectedDate;
-    private TextView busName = null;
+    private TextView busName;
     private Spinner busScheduleSpinner;
 
+    /**
+     * Initializes the activity, hides the action bar, and sets up UI components such as buttons,
+     * spinners, and date/time pickers.
+     *
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +78,8 @@ public class AddSchedule extends AppCompatActivity {
         if(intent != null) {
             /*addSched = (TextInputEditText) findViewById(R.id.addSchedule);*/
             Button addSchedButton = findViewById(R.id.addScheduleButton);
+            busName = this.findViewById(R.id.busNameSched);
+            busName.setText(this.getIntent().getStringExtra("name"));
             /*addSchedule = this.findViewById(R.id.add_a_schedule);*/
             dateText = this.findViewById(R.id.selectedDateText);
             addSchedule = this.findViewById(R.id.add_a_schedule);
@@ -77,16 +91,11 @@ public class AddSchedule extends AppCompatActivity {
 
             busName = this.findViewById(R.id.busNameSched);
 
-            Bus busbus = ManageBusActivity.listBus.get(busId);
 
-            busName.setText(busbus.name);
+            Bus busbus = Algorithm.<Bus>find(ManageBusActivity.listBus, bus -> {
+                return bus.id == busId;
+            });
 
-            /*String name = intent.getStringExtra("busName");
-            binding.busNameSched.setText(name);*/
-
-            /*ListView scheduleList = this.findViewById(R.id.schedule_list);
-            ArrayAdapter<Schedule> adapter = new ArrayAdapter<>(mContext, R.layout.activity_add_schedule, newbus.schedules);
-            scheduleList.setAdapter(adapter);*/
 
             busScheduleSpinner = this.findViewById(R.id.schedule_list);
             ArrayAdapter<Schedule> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, busbus.schedules);
@@ -94,17 +103,13 @@ public class AddSchedule extends AppCompatActivity {
             busScheduleSpinner.setAdapter(adapter);
 
             addSchedButton.setOnClickListener(v->handleAddSchedule());
-            /*showSchedule();*/
-            /*addSchedButton.setOnClickListener(view -> {
-                //Account account = LoginActivity.loggedAccount;
-                handleAddSchedule();
-
-            });*/
         }
-
-
     }
 
+    /**
+     * Handles the addition of a new schedule by sending a request to the server with the selected date
+     * and associated bus ID. Displays a success message upon successful addition.
+     */
     protected void handleAddSchedule() {
         mApiService.addSchedule(busId, selectedDate).enqueue(new Callback<BaseResponse<Bus>>() {
             @Override
@@ -118,7 +123,6 @@ public class AddSchedule extends AppCompatActivity {
                     finish();
                 }
 
-
                 Toast.makeText(mContext, res.message, Toast.LENGTH_SHORT).show();
             }
 
@@ -126,17 +130,14 @@ public class AddSchedule extends AppCompatActivity {
             public void onFailure(Call<BaseResponse<Bus>> call, Throwable t) {
                 Toast.makeText(mContext, "Server ERROR", Toast.LENGTH_SHORT).show();
             }
-                /*List<Schedule> l = response.body().payload.schedules;
-                ArrayAdapter<Schedule> adapter = new ArrayAdapter<>(mContext, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, l);
-                scheduleList.setAdapter(adapter);
-            }
 
-            @Override
-            public void onFailure(Call<BaseResponse<Bus>> call, Throwable t) {
-
-            }*/
         });
     }
+
+    /**
+     * Displays a date and time picker dialog to allow the user to choose the date and time for the new schedule.
+     * Captures the selected date and time and updates the UI accordingly.
+     */
     protected void showDialog(){
         AlertDialog dialog = new AlertDialog.Builder(mContext).create();
         LayoutInflater inflater = getLayoutInflater();
@@ -184,7 +185,13 @@ public class AddSchedule extends AppCompatActivity {
         dialog.show();
     }
 
-
+    /**
+     * Formats the selected time to ensure consistent formatting (HH:mm:ss).
+     *
+     * @param /hour   The selected hour.
+     * @param /minute The selected minute.
+     * @return The formatted time string.
+     */
     private String formatTime(String hour, String minute) {
         if (hour.length() == 1) {
             hour = "0" + hour;
@@ -194,15 +201,26 @@ public class AddSchedule extends AppCompatActivity {
         }
         return hour + ":" + minute + ":00";
     }
+
+    /**
+     * Moves to another activity within the application.
+     *
+     * @param ctx The context of the current activity.
+     * @param cls The class of the target activity.
+     */
     private void moveActivity(Context ctx, Class<?> cls) {
         Intent intent = new Intent(ctx, cls);
         startActivity(intent);
     }
 
+    /**
+     * Displays a toast message to provide feedback to the user.
+     *
+     * @param ctx     The context of the current activity.
+     * @param message The message to be displayed in the toast.
+     */
     private void viewToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
-
-
 
 }

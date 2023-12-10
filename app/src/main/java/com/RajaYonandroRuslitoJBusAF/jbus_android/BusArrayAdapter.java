@@ -31,7 +31,6 @@ public class BusArrayAdapter extends ArrayAdapter<Bus> {
         this.activity = activity;
     }
 
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -46,19 +45,10 @@ public class BusArrayAdapter extends ArrayAdapter<Bus> {
 
         // get the position of the view from the ArrayAdapter
         TextView busNameTextView = convertView.findViewById(R.id.textView1);
-        /*TextView busTypeTextView = convertView.findViewById(R.id.list_busType);
-        TextView facilitesTextView = convertView.findViewById(R.id.list_facilities);
-        TextView departureStationTextView = convertView.findViewById(R.id.textView3);
-        TextView arrivalStationTextView = convertView.findViewById(R.id.textView2);
-        TextView priceTextView = convertView.findViewById(R.id.price);*/
+
 
         if(newbus != null){
             busNameTextView.setText(newbus.name);
-            /*busTypeTextView.setText(newbus.busType.toString());
-            facilitesTextView.setText(newbus.facilities.toString());
-            departureStationTextView.setText(newbus.departure.city.name());
-            arrivalStationTextView.setText(newbus.arrival.city.name());
-            priceTextView.setText("IDR " + String.format("%.0f", newbus.price.price));*/
         }
         return convertView;
     }

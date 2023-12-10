@@ -3,45 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/loginbg"
-    tools:context=".BusInformationActivity"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="356dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Bus Information"
-        android:layout_margin="20dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="40dp"
-        android:textStyle="bold" />
+    android:background="@drawable/registerbg"
+    android:orientation="vertical"
+    >
 
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="356dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Bus Information"
+                android:textColor="@color/black"
+                android:textSize="40dp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                >
+                android:layout_height="48dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/nameOfBus"
@@ -202,7 +195,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="150dp"
@@ -218,7 +211,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/arrivalCity"
+                        android:id="@+id/ArrivalCity"
                         android:layout_width="202dp"
                         android:layout_height="wrap_content"
                         android:text="City"
@@ -226,7 +219,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/arrivalStation"
+                        android:id="@+id/ArrivalStation"
                         android:layout_width="202dp"
                         android:layout_height="wrap_content"
                         android:text="Station"
@@ -237,30 +230,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                >
 
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Price"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    />
-
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="202dp"
-                    android:layout_height="wrap_content"
-                    android:text="Price"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    />
-            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -268,8 +238,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="440dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="10dp"
         app:cardCornerRadius="30dp">
 
         <LinearLayout
@@ -294,8 +264,7 @@
             <ListView
                 android:id="@+id/scheduleListView"
                 android:layout_width="match_parent"
-                android:layout_height="287dp"
-                tools:listitem="@layout/schedulelist" />
+                android:layout_height="339dp" />
 
         </LinearLayout>
 

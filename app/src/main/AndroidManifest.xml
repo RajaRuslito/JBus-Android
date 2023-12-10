@@ -15,12 +15,19 @@
         android:theme="@style/Theme.JBusandroid"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <activity
+            android:name=".BusInfoMain"
+            android:exported="false" />
+        <activity
+            android:name=".CreateStationActivity"
+            android:exported="false" />
         <activity
             android:name=".PaymentStatusActivity"
             android:exported="false" />
-        <activity
+<!--        <activity
             android:name=".ManageBookingActivity"
-            android:exported="false" />
+            android:exported="false" />-->
         <activity
             android:name=".BusInformationActivity"
             android:exported="false" />
@@ -35,9 +42,6 @@
             android:exported="false" />
         <activity
             android:name=".AddSchedule"
-            android:exported="false" />
-        <activity
-            android:name=".model.AddSchedule"
             android:exported="false" />
         <activity
             android:name=".NotRegisteredActivity"

@@ -16,13 +16,23 @@ import com.RajaYonandroRuslitoJBusAF.jbus_android.request.UtilsApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+/**
+ * Activity for handling users who are not registered.
+ */
 public class NotRegisteredActivity extends AppCompatActivity {
 
+    // Instance variables
     private TextView registerNow = null;
     private TextView loginNow = null;
     private BottomNavigationView nav;
     private Context mContext;
     private BaseApiService mApiService;
+
+    /**
+     * Initializes the activity.
+     *
+     * @param savedInstanceState The saved state of the activity.
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,25 +41,23 @@ public class NotRegisteredActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        registerNow = findViewById(R.id.register_now);
+        mContext = this;
+        mApiService = UtilsApi.getApiService();
 
+        // Set click listeners for register and login buttons
+        registerNow = findViewById(R.id.register_now);
         registerNow.setOnClickListener(e -> {
             moveActivity(this, RegisterActivity.class);
         });
-
         loginNow = findViewById(R.id.login_now);
-
         loginNow.setOnClickListener(e -> {
             moveActivity(this, LoginActivity.class);
         });
 
+        // Set up bottom navigation
         nav = findViewById(R.id.bottom_nav);
 
-        mContext = this;
-        mApiService = UtilsApi.getApiService();
-
         nav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            //@SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -70,11 +78,23 @@ public class NotRegisteredActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Starts a new activity.
+     *
+     * @param ctx The context from which the activity is started.
+     * @param cls The class of the activity to start.
+     */
     private void moveActivity(Context ctx, Class<?> cls) {
         Intent intent = new Intent(ctx, cls);
         startActivity(intent);
     }
 
+    /**
+     * Displays a toast message.
+     *
+     * @param ctx     The context in which the toast message should be displayed.
+     * @param message The message to display in the toast.
+     */
     private void viewToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
