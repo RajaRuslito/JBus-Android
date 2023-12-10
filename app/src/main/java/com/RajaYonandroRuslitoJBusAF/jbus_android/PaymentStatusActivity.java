@@ -123,7 +123,7 @@ public class PaymentStatusActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if(intent != null) {
-            mApiService.accept(id, acc.id, busId).enqueue(new Callback<BaseResponse<Payment>>() {
+            mApiService.accept(id, pay.buyerId, busId).enqueue(new Callback<BaseResponse<Payment>>() {
                 @Override
                 public void onResponse(Call<BaseResponse<Payment>> call, Response<BaseResponse<Payment>> response) {
                     if (!response.isSuccessful()) {

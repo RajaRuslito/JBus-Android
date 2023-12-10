@@ -105,7 +105,7 @@ public class makeBookingActivity extends AppCompatActivity {
                 return bus.id == busId;
             });
 
-            busName.setText(newbus.name);
+            busName.setText(intent.getStringExtra("busName"));
             TextView busIDTextView = this.findViewById(R.id.idOfBus);
             busIDTextView.setText(String.valueOf(busId));
             TextView companyIdTextview = this.findViewById(R.id.idOfCompany);

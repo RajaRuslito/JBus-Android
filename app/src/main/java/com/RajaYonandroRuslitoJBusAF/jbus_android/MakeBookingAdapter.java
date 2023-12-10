@@ -90,6 +90,7 @@ public class MakeBookingAdapter extends ArrayAdapter<Bus> {
                     Intent i = new Intent(context, makeBookingActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("busId", newbus.id);
+                    i.putExtra("busName", newbus.name);
                     i.putExtra("departure", newbus.schedules.toString());
                     context.startActivity(i);
                 });

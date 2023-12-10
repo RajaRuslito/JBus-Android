@@ -92,9 +92,9 @@ public interface BaseApiService {
             @Query("departureDate") String departureDate
     );
 
-    @POST("payment/{id}/accept")
+    @POST("payment/accept")
     Call<BaseResponse<Payment>> accept(
-            @Path("id") int id,
+            @Query("id") int id,
             @Query("buyerId") int buyerId,
             @Query("busId") int busId
     );
