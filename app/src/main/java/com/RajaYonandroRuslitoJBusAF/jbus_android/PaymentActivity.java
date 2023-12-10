@@ -48,7 +48,6 @@ public class PaymentActivity extends AppCompatActivity {
     private HorizontalScrollView pageScroll = null;
     private Context mContext;
     private BaseApiService mApiService;
-    private SearchView searchView;
 
     /**
      * Initializes the payment activity.

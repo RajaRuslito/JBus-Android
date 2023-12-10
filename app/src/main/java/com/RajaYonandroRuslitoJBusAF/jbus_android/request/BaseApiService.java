@@ -94,7 +94,9 @@ public interface BaseApiService {
 
     @POST("payment/{id}/accept")
     Call<BaseResponse<Payment>> accept(
-            @Path("id") int id
+            @Path("id") int id,
+            @Query("buyerId") int buyerId,
+            @Query("busId") int busId
     );
 
     @POST("payment/{id}/cancel")
